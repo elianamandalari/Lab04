@@ -45,7 +45,7 @@ public Studente find(int matricola) {
 				result = null;
 			}
 			
-			conn.close();
+			
 			return result ;
 			
 		} catch (SQLException e) {

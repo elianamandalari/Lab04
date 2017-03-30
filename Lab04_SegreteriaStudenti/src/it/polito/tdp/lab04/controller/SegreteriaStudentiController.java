@@ -52,8 +52,9 @@ public class SegreteriaStudentiController {
 
 	public void setModel(Model model) {
     this.model=model;
-
+  
 	comboCorso.getItems().addAll(model.getCorsi());
+	
     
 	}
 	
@@ -68,7 +69,6 @@ public class SegreteriaStudentiController {
 
 	@FXML
 	void doCercaNome(ActionEvent event) {
-		comboCorso.getValue();
 		int matricola=Integer.parseInt(txtMatricola.getText());
 		Studente s=model.cercaStudente(matricola);
 		if(s!=null)
@@ -86,6 +86,15 @@ public class SegreteriaStudentiController {
 
 	@FXML
 	void doCercaIscrittiCorso(ActionEvent event) {
+		String nomeCorso=comboCorso.getValue();
+	    
+		if(nomeCorso.length()>1){
+			for(Studente s: model.studentiIscrittiAiCorsi(nomeCorso)){
+	    		txtResult.appendText(+s.getMatricola()+"      "+s.getNome()+"      "+s.getCognome()+"\n");
+	    	}
+		}else{
+			txtResult.setText("seleziona un corso");
+		}
 	}
 
 	@FXML

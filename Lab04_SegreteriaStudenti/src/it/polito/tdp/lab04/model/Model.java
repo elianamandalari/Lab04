@@ -30,4 +30,18 @@ public class Model {
     	StudenteDAO dao=new StudenteDAO();
     	return dao.find(matricola);
     }
+
+	public List<Studente> studentiIscrittiAiCorsi(String nomeCorso) {
+		
+
+		CorsoDAO dao= new CorsoDAO();
+		
+		for(Corso c : corsi){
+			if(c.getNome().equals(nomeCorso)){
+				return dao.getStudentiIscrittiAlCorso(c);
+		
+			}
+		}
+		return null;
+	}
 }
