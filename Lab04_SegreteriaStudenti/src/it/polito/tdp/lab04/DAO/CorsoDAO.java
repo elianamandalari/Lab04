@@ -21,7 +21,7 @@ public class CorsoDAO {
 		final String sql = "SELECT * FROM corso";
 
 		List<Corso> corsi = new LinkedList<Corso>();
-
+        
 		try {
 			Connection conn = ConnectDB.getConnection();
 			PreparedStatement st = conn.prepareStatement(sql);
@@ -32,12 +32,20 @@ public class CorsoDAO {
 
 				// Crea un nuovo JAVA Bean Corso
 				// Aggiungi il nuovo Corso alla lista
+				Corso c=new Corso(
+						rs.getString("codins"),
+						rs.getInt("crediti"),
+						rs.getString("nome"),
+						rs.getInt("pd")
+					    );
+				
+				corsi.add(c);
 			}
-
+            conn.close();
 			return corsi;
 
 		} catch (SQLException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			throw new RuntimeException("Errore Db");
 		}
 	}
@@ -46,14 +54,18 @@ public class CorsoDAO {
 	 * Dato un codice insegnamento, ottengo il corso
 	 */
 	public void getCorso(Corso corso) {
-		// TODO
+	   
+			   
+		
 	}
+	
 
 	/*
 	 * Ottengo tutti gli studenti iscritti al Corso
 	 */
 	public void getStudentiIscrittiAlCorso(Corso corso) {
-		// TODO
+
+		
 	}
 
 	/*

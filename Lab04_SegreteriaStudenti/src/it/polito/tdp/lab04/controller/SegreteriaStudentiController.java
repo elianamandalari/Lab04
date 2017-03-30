@@ -1,9 +1,10 @@
 package it.polito.tdp.lab04.controller;
 
-import java.util.Collections;
+import java.util.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import it.polito.tdp.lab04.DAO.CorsoDAO;
 import it.polito.tdp.lab04.model.Corso;
 import it.polito.tdp.lab04.model.Model;
 import it.polito.tdp.lab04.model.Studente;
@@ -18,9 +19,9 @@ public class SegreteriaStudentiController {
 
 	private Model model;
 	List<Corso> corsi = new LinkedList<Corso>();
-
+    
 	@FXML
-	private ComboBox<Corso> comboCorso;
+	private ComboBox<String> comboCorso;
 
 	@FXML
 	private Button btnCercaIscrittiCorso;
@@ -50,22 +51,41 @@ public class SegreteriaStudentiController {
 	private TextField txtCognome;
 
 	public void setModel(Model model) {
+    this.model=model;
 
+	comboCorso.getItems().addAll(model.getCorsi());
+    
 	}
-
+	
 	@FXML
 	void doReset(ActionEvent event) {
-
+     txtNome.clear();
+     txtCognome.clear();
+     txtMatricola.clear();
+     txtResult.clear();
+     
 	}
 
 	@FXML
 	void doCercaNome(ActionEvent event) {
-
-	}
+		comboCorso.getValue();
+		int matricola=Integer.parseInt(txtMatricola.getText());
+		Studente s=model.cercaStudente(matricola);
+		if(s!=null)
+		{
+			txtNome.setText(s.getNome());
+			txtCognome.setText(s.getCognome());
+		}
+		else
+			txtResult.appendText("Matricola non trovata");
+		
+    	}
+    		
+	  
+	
 
 	@FXML
 	void doCercaIscrittiCorso(ActionEvent event) {
-
 	}
 
 	@FXML
@@ -77,6 +97,7 @@ public class SegreteriaStudentiController {
 	void doIscrivi(ActionEvent event) {
 
 	}
+	
 
 	@FXML
 	void initialize() {
@@ -90,6 +111,8 @@ public class SegreteriaStudentiController {
 		assert btnIscrivi != null : "fx:id=\"btnIscrivi\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert txtMatricola != null : "fx:id=\"txtMatricola\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
 		assert btnReset != null : "fx:id=\"btnReset\" was not injected: check your FXML file 'SegreteriaStudenti.fxml'.";
+	  
+	  
 	}
 
 }
