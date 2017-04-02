@@ -52,6 +52,7 @@ public class SegreteriaStudentiController {
 
 	public void setModel(Model model) {
     this.model=model;
+
   
 	comboCorso.getItems().addAll(model.getCorsi());
 	
@@ -99,13 +100,57 @@ public class SegreteriaStudentiController {
 
 	@FXML
 	void doCercaCorsi(ActionEvent event) {
+		int matricola=Integer.parseInt(txtMatricola.getText());
+		Studente s=model.cercaStudente(matricola);
+		String nomeCorso=comboCorso.getValue();
 
+		boolean trovato=false;
+        if(s==null)
+        	txtResult.setText("La matricola non è presente nel database");
+        else
+        {  
+        	for(Corso c:model.cercaCorsi(matricola))
+        	 txtResult.appendText(c.getCodins()+" "+c.getNome()+"\n");
+        }
+        
+      
+        	for(Corso c:model.cercaCorsi(matricola))
+        		if(c.getNome().equals(nomeCorso))
+        			trovato=true;
+        	
+        	if(trovato==true)
+        		txtResult.setText("Studente già iscritto al corso "+nomeCorso);
+        	else 
+        		txtResult.setText("Studente non iscritto al corso "+nomeCorso);
+        	       
+        	
+        
 	}
 
 	@FXML
 	void doIscrivi(ActionEvent event) {
+		try{
+			String nomeCorso=comboCorso.getValue();
+            int matricola=Integer.parseInt(txtMatricola.getText());
+	    	Studente s=model.cercaStudente(matricola);
+	    	if(s!=null && nomeCorso!=null){
+	    		if(!model.isIscritto(comboCorso.getValue(),s.getMatricola()))
+	    				{
+	    				if(model.iscriviStudente(comboCorso.getValue(), s))
+	    					txtResult.appendText("Studente appena iscritto al corso! \n");
+	    				}
+	    		else
+	    			txtResult.appendText("Studnete già iscritto! \n");
+	    	}
+	    	
+	    	}catch(NumberFormatException e){
+	    		txtResult.appendText("Caratteri non validi nella matricola !\n");
+	    	}
 
-	}
+    }
+
+	
+
 	
 
 	@FXML

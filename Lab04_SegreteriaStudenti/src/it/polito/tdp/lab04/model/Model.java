@@ -9,8 +9,7 @@ public class Model {
     private List<Corso> corsi;
  
    
- 
-    
+  
    
    
     
@@ -44,4 +43,25 @@ public class Model {
 		}
 		return null;
 	}
+
+	public List<Corso> cercaCorsi(int matricola) {
+		StudenteDAO dao=new StudenteDAO();
+	    return dao.getCorsi(matricola);
+	}
+	public boolean isIscritto(String nomeCorso,int matricola){
+		  StudenteDAO dao=new StudenteDAO();
+		  for(Corso c : corsi)
+				if(c.getNome().equals(nomeCorso))
+		          return dao.checkIscritto(c, matricola);
+		  return false;
+	  }
+	  
+	  public boolean iscriviStudente(String nomeCorso, Studente studente){
+		  CorsoDAO dao= new CorsoDAO();
+		  for(Corso c : corsi)
+				if(c.getNome().equals(nomeCorso))
+		           return dao.inscriviStudenteACorso(studente, c);
+		  return false;
+		  
+	  }
 }
